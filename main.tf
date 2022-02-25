@@ -43,6 +43,12 @@ resource "azurerm_kubernetes_cluster" "cluster_aks" {
     command     = "az aks get-credentials --resource-group ${var.resource_group_name} --name ${var.cluster_name}"
     interpreter = ["bash", "-c"]
   }
+
+  lifecycle {
+    ignore_changes = [
+      addon_profile.0.oms_agent
+    ]
+  }
 }
 
 resource "azurerm_kubernetes_cluster_node_pool" "node_pool_cluster" {
